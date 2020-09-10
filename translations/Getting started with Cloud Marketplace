@@ -1,0 +1,55 @@
+#LAB: Google Cloud Fundamentals: Getting Started with Cloud Marketplace
+
+#Objectives
+    -In this lab, you learn how to launch a solution using Cloud Marketplace.
+
+#Steps:
+
+#Task 1: Use cloud Marketplace to deloy a LAMP stack
+
+    gcloud compute instances create lampstack-1 --machine-type "f1-micro --image-project "debian-cloud" --image "debian-9-stretch-v20190213" --subnet "default"
+
+    gcloud compute firewall-rules create allow-http --action=ALLOW --direction=INGRESS --rules=tcp:80 --target-tags=http
+
+    gcloud compute firewall-rules create allow-https --action=ALLOW --direction=INGRESS --rules=tcps:80 --target-tags=https
+
+    Configure the LAMP stack by connecting to your instance with the command below and note the External IP address afterwards:
+        gcloud compute ssh
+
+    By creating an instance, you already have the "Linux" part of LAMP. Next, install Apache and PHP
+        sudo apt-get update sudo apt-get install apache2 php5 libapache2-mod-php5
+
+    Result: You should see the Apache test page.
+
+    Install MySQL and related PHP components to your instance:
+        sudo apt-get install mysql-server php-mysql php-pear
+
+    Now that you have MySQL installed, you should run the mysql_secure_installation command to improve the security of your installation. This performs steps such as setting the root user password if it is not yet set, removing the anonymous user, restricting root user access to the local machine, and removing the test database.
+        sudo mysql_secure_installation
+
+#Task 2: Verify your deployment
+
+    In a new browser tab, enter your external IP address to verify that Apache is running:
+        http://[YOUR_EXTERNAL_IP_ADDRESS]
+
+    In the open SSH window, to change the current working directory to /opt/bitnami, execute the following command:
+        cd /opt/bitnami
+
+    To copy the phpinfo.php script from the installation directory to a publicly accessible location under the web server document root, execute the following command:
+        sudo sh -c 'echo "<?php phpinfo(); ?>" > apache2/htdocs/phpinfo.php'
+
+    To close the SSH window, execute the following command:
+        exit
+
+    Open a new browser tab.
+
+    Type the following URL, and replace SITE_ADDRESS with your external IP address:
+        http://SITE_ADDRESS/phpinfo.php
+
+    Result: A summary of the PHP configuration of your server is displayed.
+
+    Close the phpinfo tab
+
+
+Congratulations!
+    In this lab, you deployed a LAMP stack to a Compute Engine instance.
