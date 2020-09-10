@@ -1,1 +1,1 @@
-# Lydia-GADS-2020-projects
+# Lydia's GADS Cloud Project Submissions
